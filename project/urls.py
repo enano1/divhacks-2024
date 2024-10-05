@@ -6,4 +6,6 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name="home"),
+    path('client/<uuid:client_id>/', views.client_details, name='client_details'),
+
 ]
