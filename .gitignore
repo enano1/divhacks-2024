@@ -1,0 +1,34 @@
+# Ignore Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Ignore virtual environment directories
+venv/
+env/
+
+# Ignore environment variables and API keys
+.env
+
+# Ignore database and migration files
+*.sqlite3
+db.sqlite3
+/migrations/
+
+# Ignore compiled static files
+staticfiles/
+*.log
+
+# Ignore Django secret keys
+secret_key.txt
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+
+# Ignore node_modules if you're using Node.js/React
+node_modules/
+
+# Ignore MacOS system files
+.DS_Store
