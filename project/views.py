@@ -4,7 +4,11 @@ from django.shortcuts import render
 from django.views.generic import ListView
 from .models import *
 
-####################################################################
-################## PUT A CLASS HERE FOR THE MODELS ################# or figure out how to import mongodb into django LOL
-####################################################################
+def home(request):
+    '''
+    View for the home page
+    '''
 
+    template_name = 'project/home.html'
+
+    return render(request, template_name)
