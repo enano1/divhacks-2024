@@ -1,11 +1,50 @@
-<!-- project/templates/project/home.html-->
-<html>
-    <head>
-        <title>Hello world!</title>
-        <link rel='stylesheet' type='text/css' href='/static/hw/styles.css'>
-    </head>
-    <body>
-        <h1>Hello world!</h1>
-        <p>Welcome to our first Django web application!</p>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaping the Future of Sustainable Finance</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'project/styles.css' %}">
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="logo">Startup Name</div>
+            <div class="nav-links">
+                <a href="#">About</a>
+                <a href="/dashboard/">Sign in</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Shaping the Future of <br>Sustainable Finance</h1>
+            <a href="#content-section" class="learn-more">Learn more</a> <!-- Changed button to anchor link -->
+        </div>
+    </section>
+
+    <section id="content-section" class="content-section"> <!-- Added id to the section -->
+        <div class="problem-solution">
+            <div class="problem-box">
+                <h3>Problem</h3>
+                <p>Description of the problem related to sustainability and finance.</p>
+            </div>
+            <div class="solution-box">
+                <h3>Solution</h3>
+                <p>Description of the solution related to sustainability and finance.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <a href="/dashboard/">
+            <button class="get-started">Get Started!</button>
+        </a>
+    </footer>
+    
+
+</body>
 </html>
