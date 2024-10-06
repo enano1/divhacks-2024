@@ -122,26 +122,27 @@ from .utils import generate_loan_terms
 
 def submit2(request):
     if request.method == 'POST':
-        # Use get() to fetch a single client for the logged-in user
-        try:
-            client = Client.objects.get(user=request.user)
-        except Client.DoesNotExist:
-            return HttpResponse("No client found for the user.")
+        # Use filter() to fetch all matching clients for the logged-in user
+        clients = Client.objects.filter(user=request.user)
 
-        # Update client data with the new values
-        client.reduce_water = request.POST.get('reduce_water', 'off') == 'on'
-        client.reduce_water_value = request.POST.get('reduce_water_value') or 0
-        client.reduce_electricity = request.POST.get('reduce_electricity', 'off') == 'on'
-        client.reduce_electricity_value = request.POST.get('reduce_electricity_value') or 0
-        client.reduce_waste = request.POST.get('reduce_waste', 'off') == 'on'
-        client.reduce_waste_value = request.POST.get('reduce_waste_value') or 0
-        client.energy_efficient_lightbulbs = request.POST.get('energy_efficient_lightbulbs', 'off') == 'on'
-        client.energy_efficient_lightbulbs_value = request.POST.get('energy_efficient_lightbulbs_value') or 0
-        client.reduce_co2 = request.POST.get('reduce_co2', 'off') == 'on'
-        client.reduce_co2_value = request.POST.get('reduce_co2_value') or 0
+        if not clients.exists():
+            return HttpResponse("No clients found for the user.")
 
-        # Save the client instance
-        client.save()
+        # Loop through each client and update them
+        for client in clients:
+            client.reduce_water = request.POST.get('reduce_water', 'off') == 'on'
+            client.reduce_water_value = request.POST.get('reduce_water_value') or 0
+            client.reduce_electricity = request.POST.get('reduce_electricity', 'off') == 'on'
+            client.reduce_electricity_value = request.POST.get('reduce_electricity_value') or 0
+            client.reduce_waste = request.POST.get('reduce_waste', 'off') == 'on'
+            client.reduce_waste_value = request.POST.get('reduce_waste_value') or 0
+            client.energy_efficient_lightbulbs = request.POST.get('energy_efficient_lightbulbs', 'off') == 'on'
+            client.energy_efficient_lightbulbs_value = request.POST.get('energy_efficient_lightbulbs_value') or 0
+            client.reduce_co2 = request.POST.get('reduce_co2', 'off') == 'on'
+            client.reduce_co2_value = request.POST.get('reduce_co2_value') or 0
+
+            # Save the client instance
+            client.save()
 
         # Save client data to session (for confirmation page)
         request.session['client_data'] = {
@@ -163,15 +164,19 @@ def submit2(request):
     return render(request, 'project/kpichooser.html')
 
 
+
 def confirmation(request):
     # Retrieve client data from the session
     client_data = request.session.get('client_data')
 
-    # Fetch the single client for the logged-in user
-    try:
-        client = Client.objects.get(user=request.user)
-    except Client.DoesNotExist:
+    # Fetch all clients for the logged-in user
+    clients = Client.objects.filter(user=request.user)
+
+    if not clients.exists():
         return HttpResponse("No client found for the user.")
+
+    # You can choose the first client as an example or use other logic
+    client = clients.first()
 
     if not client_data:
         return HttpResponse("No client data found.")
@@ -190,7 +195,7 @@ def confirmation(request):
         'reduce_co2_value': client_data.get('reduce_co2_value')
     }
 
-    # Generate loan terms using OpenAI
+    # Generate loan terms using OpenAI (or your custom logic)
     loan_terms, loan_contract = generate_loan_terms(kpi_data, client.business_name, client.loan_amount)
     terms = loan_terms.split(';')
 
@@ -205,7 +210,7 @@ def confirmation(request):
     return render(request, 'project/confirmation.html', {
         'client_data': client_data,
         'loan_contract': loan_contract,
-        'client': client  # Only pass the single client
+        'client': client  # Pass the selected client
     })
 
 ####### LOGIN AND LOGOUT ########
