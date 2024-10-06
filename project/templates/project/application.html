@@ -83,19 +83,26 @@
         </div>
     </div>
 
-    <div class="application-form">
+    <<div class="application-form">
         <h1>Apply for a SBL</h1>
         <p>Take the next step. Improve your loan:</p>
-        <form>
-            <input type="text" placeholder="Name" required>
-            <input type="email" placeholder="Email" required>
-            <input type="number" placeholder="Revenue" required>
-            <textarea placeholder="Description" rows="4" required></textarea>
-            <p>Ready to take your loan to the next level?</p>
-            <a href="/kpichooser/">
-                <button type="button" class="get-started">KPI Chooser</button>
-            </a>
+    
+        {% if error %}
+        <p style="color:red;">{{ error }}</p>
+        {% endif %}
+    
+        <form action="{% url 'submit1' %}" method="POST">
+            {% csrf_token %}
+    
+            Name: <input type="text" name="name" placeholder="Name" required>
+            Email: <input type="email" name="email" placeholder="Email" required>
+            Revenue: <input type="number" step="0.01" name="revenue" placeholder="Revenue" required>
+            Description: <textarea name="description" placeholder="Description" rows="4" required></textarea>
+    
+            <button type="submit" class="get-started">KPI Chooser</button>
         </form>
     </div>
+    
+    
 </body>
 </html>

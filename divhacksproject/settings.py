@@ -86,16 +86,9 @@ WSGI_APPLICATION = 'divhacksproject.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'divhacksproject',  # Correct database name
-        'CLIENT': {
-            'host': 'mongodb+srv://paulmartinenano:p3LoPMCLLXjbIIby@project.azd3w.mongodb.net/divhacksproject?retryWrites=true&w=majority',  # Ensure the database name is in the URI
-            'username': 'paulmartinenano',
-            'password': 'p3LoPMCLLXjbIIby',
-            'authSource': 'admin',
-            'authMechanism': 'SCRAM-SHA-1'
-        }
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
