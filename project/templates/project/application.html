@@ -127,8 +127,8 @@
     </div>
 
     <div class="application-form">
-        <h1>Apply for an SBL</h1>
-        <p>Take the next step. Improve your loan</p>
+        <h1>Apply for a SBL</h1>
+        <p>Take the next step. Improve your loan:</p>
     
         {% if error %}
         <p style="color:red;">{{ error }}</p>
@@ -167,10 +167,8 @@
             <label for="revenue">Revenue:</label>
             <input type="number" id="revenue" step="0.01" name="revenue" placeholder="Revenue" required>
 
-            <div class="button-container">
-                <button type="submit" class="get-started">KPI Chooser</button>
-            </div>
         </form>
+        <button type="submit" class="get-started">KPI Chooser</button>
 
     </div>
     
