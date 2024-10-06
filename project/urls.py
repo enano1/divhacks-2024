@@ -22,7 +22,12 @@ urlpatterns = [
     #Login and Logout Functionality
     path('loginpage/', views.custom_login, name='loginpage'),  # Custom login view
     path('register/', views.register, name='register'),
+
+    path('currentloans/', views.current_loans, name='currentloans'),
+
 ]
+
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

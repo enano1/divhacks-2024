@@ -107,6 +107,20 @@ def submit1(request):
             'revenue': revenue
         }
 
+        client = Client.objects.create(
+            user=request.user,  # Associate with the logged-in user
+            business_name=business_name,
+            business_email=business_email,
+            business_owner=business_owner,
+            tax_identification_number=tin,
+            business_history=business_history,
+            ownership_structure=ownership_structure,
+            loan_amount=loan_amount,
+            loan_timeframe=loan_timeframe,
+            purpose=purpose,
+            revenue=revenue
+        )
+
         return redirect('kpichooser')
 
     return render(request, 'project/application.html')
@@ -120,6 +134,7 @@ def submit2(request):
     if request.method == 'POST':
         # Get client data from session
         client_data = request.session.get('client_data')
+        client = get_object_or_404(Client, user=request.user)
 
         if not client_data:
             return HttpResponse("Client data not found.")
@@ -150,6 +165,19 @@ def submit2(request):
             'reduce_co2_value': reduce_co2_value
         })
 
+        client.reduce_water = reduce_water
+        client.reduce_water_value = reduce_water_value
+        client.reduce_electricity = reduce_electricity
+        client.reduce_electricity_value = reduce_electricity_value
+        client.reduce_waste = reduce_waste
+        client.reduce_waste_value = reduce_waste_value
+        client.energy_efficient_lightbulbs = energy_efficient_lightbulbs
+        client.energy_efficient_lightbulbs_value = energy_efficient_lightbulbs_value
+        client.reduce_co2 = reduce_co2
+        client.reduce_co2_value = reduce_co2_value
+        client.save()
+        
+
         # Store updated client data in session
         request.session['client_data'] = client_data
 
@@ -162,6 +190,7 @@ def submit2(request):
 def confirmation(request):
     # Retrieve client data from the session
     client_data = request.session.get('client_data')
+    client = get_object_or_404(Client, user=request.user)
 
     if not client_data:
         return HttpResponse("No client data found.")
@@ -186,7 +215,8 @@ def confirmation(request):
     # Pass the client data and generated loan terms to the template
     return render(request, 'project/confirmation.html', {
         'client_data': client_data,
-        'loan_terms': loan_terms  # Include the generated loan terms
+        'loan_terms': loan_terms,  # Include the generated loan terms
+        'client': client,
     })
 
 
@@ -225,3 +255,16 @@ def custom_login(request):
     
     return render(request, 'project/loginpage.html')  # Use your custom template
 
+############### current loans ################
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .models import Client
+
+@login_required
+def current_loans(request):
+    # Fetch all loans associated with the logged-in user
+    loans = Client.objects.filter(user=request.user)
+
+    # Pass the loans to the template
+    return render(request, 'project/currentloans.html', {'loans': loans})
