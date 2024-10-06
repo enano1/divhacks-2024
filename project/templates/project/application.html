@@ -88,25 +88,25 @@
         <form action="{% url 'submit1' %}" method="POST">
             {% csrf_token %}
 
-            Name: <input type="text" name="businessname" placeholder="Business Name" >
+            Name: <input type="text" name="businessname" placeholder="Business Name" required>
             <br>
-            Email: <input type="email" name="businessemail" placeholder="Business Email" >
+            Email: <input type="email" name="businessemail" placeholder="Business Email" required>
             <br>
-            Business Owner: <input type="text" name="businessowner" placeholder="Business Owner" >
+            Business Owner: <input type="text" name="businessowner" placeholder="Business Owner" required>
             <br>
-            Tax Identification Number: <input type="text" name="tin" placeholder="Tax Identification Number" >
+            Tax Identification Number: <input type="text" name="tin" placeholder="Tax Identification Number" required>
             <br>
-            Business History: <textarea name="businesshistory" placeholder="Business History" rows="4" ></textarea>
+            Business History: <textarea name="businesshistory" placeholder="Business History" rows="4" required></textarea>
             <br>
-            Ownership Structure: <textarea name="ownershipstructure" placeholder="Ownership Structure" rows="4" ></textarea>
+            Ownership Structure: <textarea name="ownershipstructure" placeholder="Ownership Structure" rows="4" required></textarea>
             <br>
-            Loan Amount: <input type="number" step="1000" name="loanamount" placeholder="Loan Amount" >
+            Loan Amount: <input type="number" step="1000" name="loanamount" placeholder="Loan Amount" required>
             <br>
-            Loan Timeframe: <input type="number" step="1" name="loantimeframe" placeholder="Loan Timeframe (months)" >
+            Loan Timeframe: <input type="number" step="1" name="loantimeframe" placeholder="Loan Timeframe (months)" required>
             <br>
-            Purpose: <textarea name="purpose" placeholder="Purpose" rows="4" ></textarea>
+            Purpose: <textarea name="purpose" placeholder="Purpose" rows="4" required></textarea>
             <br>
-            Revenue: <input type="number" step="0.01" name="revenue" placeholder="Revenue" >
+            Revenue: <input type="number" step="0.01" name="revenue" placeholder="Revenue" required>
             <br>
             <button type="submit" class="get-started">KPI Chooser</button>
         </form>
