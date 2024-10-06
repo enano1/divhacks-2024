@@ -169,6 +169,10 @@ def confirmation(request):
     # Retrieve client data from the session
     client_data = request.session.get('client_data')
 
+    # Check if client_data exists
+    if not client_data:
+        return HttpResponse("No client data found.")
+
     # Fetch all clients for the logged-in user
     clients = Client.objects.filter(user=request.user)
 
@@ -176,11 +180,8 @@ def confirmation(request):
         return HttpResponse("No client found for the user.")
 
     # You can choose the first client as an example or use other logic
-    client = clients.first()
+    client = clients.order_by('-id').first()
 
-    if not client_data:
-        return HttpResponse("No client data found.")
-    
     # Prepare KPI data for the loan terms generation
     kpi_data = {
         'reduce_water': client_data.get('reduce_water'),
@@ -195,11 +196,14 @@ def confirmation(request):
         'reduce_co2_value': client_data.get('reduce_co2_value')
     }
 
+ 
+
     # Generate loan terms using OpenAI (or your custom logic)
     loan_terms, loan_contract = generate_loan_terms(kpi_data, client.business_name, client.loan_amount)
     terms = loan_terms.split(';')
 
     # Save the loan terms into the client instance
+    client.loan_terms = loan_contract
     client.loan_rate = terms[0].split(':')[1]
     client.loan_increasemiss1 = terms[1].split(':')[1]
     client.loan_increasemiss2 = terms[2].split(':')[1]
@@ -212,6 +216,7 @@ def confirmation(request):
         'loan_contract': loan_contract,
         'client': client  # Pass the selected client
     })
+
 
 ####### LOGIN AND LOGOUT ########
 

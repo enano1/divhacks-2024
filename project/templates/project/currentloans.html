@@ -8,22 +8,23 @@
     <link rel="stylesheet" type="text/css" href="{% static 'project/styles.css' %}">
     <title>Your Loans</title>
     <style>
+        /* Existing CSS */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, black 100%),
-                url("{% static 'project/background5.jpg' %}"); /* Gradient and background image */
-            background-size: cover; /* Cover entire viewport */
-            background-position: center; /* Center background image */
-            background-repeat: no-repeat; /* Prevent background repetition */
-            background-attachment: fixed; /* Make background fixed during scroll */
-            background-color: black; /* Set the default background to black */
-            color: white; /* Set text color to white for better contrast */
+                url("{% static 'project/background5.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: black;
+            color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0; /* Removed default padding */
-            min-height: 100vh; /* Full height of the viewport */
+            padding: 0;
+            min-height: 100vh;
         }
 
         .navbar {
@@ -32,7 +33,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-            background-color: #2E8B57; /* Semi-transparent navbar */
+            background-color: #2E8B57;
             position: fixed;
             top: 0;
             z-index: 100;
@@ -57,17 +58,17 @@
         }
 
         .nav-links a:hover {
-            color: #ddd; /* Slightly lighter color on hover */
+            color: #ddd;
         }
 
         .container {
-            margin-top: 250px; /* Space for navbar */
+            margin-top: 250px;
             width: 90%;
             max-width: 1200px;
             padding: 40px;
-            background-color: rgba(44, 44, 44, 0.85); /* Semi-transparent dark background for better contrast */
+            background-color: rgba(44, 44, 44, 0.85);
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
 
@@ -96,11 +97,11 @@
         }
 
         table tr:nth-child(even) {
-            background-color: rgba(255, 255, 255, 0.1); /* Light grey for even rows */
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         table tr:hover {
-            background-color: rgba(255, 255, 255, 0.2); /* Highlight row on hover */
+            background-color: rgba(255, 255, 255, 0.2);
         }
 
         .back-link {
@@ -115,7 +116,52 @@
         }
 
         .back-link:hover {
-            background-color: #45a049; /* Darker green on hover */
+            background-color: #45a049;
+        }
+
+        /* Modal CSS */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: #333;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            color: white;
+            text-align: left;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #ddd;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -163,8 +209,9 @@
                             <td>{{ loan.loan_increasemiss2 }}</td>
                             <td>{{ loan.loan_increasemiss3 }}</td>
                             <td>
-                                <!-- Optional: Add links for viewing/editing a specific loan -->
-                                {% comment %} <a href="{% url 'currentloans' loan.id %}" style="color: #4CAF50;">View Details</a> {% endcomment %}
+                                <button class="view-contract-btn" data-loan-contract="{{ loan.loan_terms }}">
+                                    View Contract
+                                </button>
                             </td>
                         </tr>
                     {% endfor %}
@@ -176,6 +223,53 @@
 
         <a href="{% url 'dashboard' %}" class="back-link">Back to Dashboard</a>
     </div>
+
+    <!-- The Modal -->
+    <div id="contractModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Loan Contract</h2>
+                <span class="close">&times;</span>
+            </div>
+            <p id="contractContent"></p>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal element
+        var modal = document.getElementById("contractModal");
+        var modalContent = document.getElementById("contractContent");
+
+        // Get the close button
+        var closeModal = document.getElementsByClassName("close")[0];
+
+        // Add event listener to all 'View Contract' buttons
+        document.querySelectorAll(".view-contract-btn").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                // Get the loan contract from the data attribute
+                var contract = this.getAttribute("data-loan-contract");
+
+                // Set the contract content in the modal
+                modalContent.innerText = contract;
+
+                // Show the modal
+                modal.style.display = "block";
+            });
+        });
+
+        // When the user clicks on <span> (x), close the modal
+        closeModal.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
 </body>
 
 </html>
