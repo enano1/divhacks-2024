@@ -15,6 +15,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            margin-top: 100px;
             padding: 20px;
         }
 
@@ -22,13 +23,20 @@
             display: flex;
             justify-content: space-between;
             background-color: #333;
-            padding: 15px;
+            padding: 20px;
             color: white;
+            position: fixed; /* Keep navbar at the top */
+            top: 0;
+            left: 0;
+            right: 0; /* Full width */
+            z-index: 10; /* Ensure navbar is above other elements */
+            font-size: 20px;
         }
 
         .nav-links a {
             color: white;
             margin: 0 15px;
+            font-size: 20px;
             text-decoration: none;
         }
 
@@ -113,10 +121,8 @@
     <div class="navbar">
         <div class="logo">Loan Dashboard</div>
         <div class="nav-links">
-            <a href="/home/">Home</a>
+            <a href="/">Home</a>
             <a href="/dashboard/">Loans</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
         </div>
     </div>
 
