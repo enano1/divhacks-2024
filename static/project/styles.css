@@ -204,7 +204,7 @@ p {
 .problem-box h3, .solution-box h3 {
     font-size: 2em; /* Increase the font size for subtitles */
     margin-bottom: 15px;
-    color: #32CD32; /* Brighter green color for subtitles */
+    color: green; /* Brighter green color for subtitles */
 }
 
 .problem-box p, .solution-box p {
@@ -216,7 +216,7 @@ p {
 
 .section-divider {
     border: none;
-    border-top: 3px solid #32CD32; /* Thick, long horizontal line in brighter green color */
+    border-top: 3px solid green; /* Thick, long horizontal line in brighter green color */
     width: 100%; /* Makes the line as long as the content width */
     margin: 40px 0; /* Add more space above and below the line */
 }
