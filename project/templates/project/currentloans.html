@@ -18,6 +18,10 @@
                     <th>Loan Timeframe</th>
                     <th>Purpose</th>
                     <th>Revenue</th>
+                    <th>Interest Rate</th>
+                    <th>Increase in Miss 1</th>
+                    <th>Increase in Miss 2</th>
+                    <th>Increase in Miss 3</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -30,6 +34,11 @@
                         <td>{{ loan.loan_timeframe }}</td>
                         <td>{{ loan.purpose }}</td>
                         <td>{{ loan.revenue }}</td>
+                        <td>{{ loan.loan_rate }}</td>
+                        <td>{{ loan.loan_increasemiss1 }}</td>
+                        <td>{{ loan.loan_increasemiss2 }}</td>
+                        <td>{{ loan.loan_increasemiss3 }}</td>
+
                         <td>
                             <!-- Optional: Add links for viewing/editing a specific loan -->
                             {% comment %} <a href="{% url 'currentloans' loan.id %}">View Details</a> {% endcomment %}

@@ -9,33 +9,33 @@
     <h1>Loan Application Confirmation</h1>
 
     <h2>Client Information:</h2>
-    <p>Name: {{ client_data.business_name }}</p>
-    <p>Email: {{ client_data.business_email }}</p>
-    <p>Revenue: {{ client_data.revenue }}</p>
+    <p>Name: {{ client.business_name }}</p> <!-- Access from client object -->
+    <p>Email: {{ client.business_email }}</p> <!-- Access from client object -->
+    <p>Revenue: {{ client.revenue }}</p> <!-- Access from client object -->
 
     <h2>KPI Selections:</h2>
 
-    {% if client_data.reduce_water %}
-        <p>Reduce Water: {{ client_data.reduce_water_value }}%</p>
+    {% if client.reduce_water %}
+        <p>Reduce Water: {{ client.reduce_water_value }}%</p> <!-- Access from client object -->
     {% endif %}
 
-    {% if client_data.reduce_electricity %}
-        <p>Reduce Electricity: {{ client_data.reduce_electricity_value }}%</p>
+    {% if client.reduce_electricity %}
+        <p>Reduce Electricity: {{ client.reduce_electricity_value }}%</p> <!-- Access from client object -->
     {% endif %}
 
-    {% if client_data.reduce_waste %}
-        <p>Reduce Waste: {{ client_data.reduce_waste_value }}%</p>
+    {% if client.reduce_waste %}
+        <p>Reduce Waste: {{ client.reduce_waste_value }}%</p> <!-- Access from client object -->
     {% endif %}
 
-    {% if client_data.energy_efficient_lightbulbs %}
-        <p>Energy Efficient Lightbulbs: {{ client_data.energy_efficient_lightbulbs_value }}%</p>
+    {% if client.energy_efficient_lightbulbs %}
+        <p>Energy Efficient Lightbulbs: {{ client.energy_efficient_lightbulbs_value }}%</p> <!-- Access from client object -->
     {% endif %}
 
-    {% if client_data.reduce_co2 %}
-        <p>Reduce CO2: {{ client_data.reduce_co2_value }}%</p>
+    {% if client.reduce_co2 %}
+        <p>Reduce CO2: {{ client.reduce_co2_value }}%</p> <!-- Access from client object -->
     {% endif %}
 
     <h2>Generated Loan Terms:</h2>
-    <p>{{ loan_terms }}</p>
+    <p>{{ loan_contract }}</p> <!-- Keep this as is -->
 </body>
 </html>

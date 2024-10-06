@@ -93,20 +93,7 @@ def submit1(request):
                 'error': 'Please fill in all the required fields.'
             })
 
-        # Store the form data in session
-        request.session['client_data'] = {
-            'business_name': business_name,
-            'business_email': business_email,
-            'business_owner': business_owner,
-            'tin': tin,
-            'business_history': business_history,
-            'ownership_structure': ownership_structure,
-            'loan_amount': loan_amount,
-            'loan_timeframe': loan_timeframe,
-            'purpose': purpose,
-            'revenue': revenue
-        }
-
+        # Create a Client object and save it to the database
         client = Client.objects.create(
             user=request.user,  # Associate with the logged-in user
             business_name=business_name,
@@ -121,7 +108,10 @@ def submit1(request):
             revenue=revenue
         )
 
-        return redirect('kpichooser')
+        # Store the client ID in session (for later reference)
+        request.session['client_id'] = client.id
+
+        return redirect('kpichooser')  # Redirect to the next view
 
     return render(request, 'project/application.html')
 
@@ -132,91 +122,71 @@ from .utils import generate_loan_terms
 
 def submit2(request):
     if request.method == 'POST':
-        # Get client data from session
-        client_data = request.session.get('client_data')
-        client = get_object_or_404(Client, user=request.user)
-
-        if not client_data:
-            return HttpResponse("Client data not found.")
-
-        # Get sustainability-related form data and handle empty values for numeric fields
-        reduce_water = request.POST.get('reduce_water', 'off') == 'on'
-        reduce_water_value = request.POST.get('reduce_water_value') or 0  # Default to 0 if empty
-        reduce_electricity = request.POST.get('reduce_electricity', 'off') == 'on'
-        reduce_electricity_value = request.POST.get('reduce_electricity_value') or 0
-        reduce_waste = request.POST.get('reduce_waste', 'off') == 'on'
-        reduce_waste_value = request.POST.get('reduce_waste_value') or 0
-        energy_efficient_lightbulbs = request.POST.get('energy_efficient_lightbulbs', 'off') == 'on'
-        energy_efficient_lightbulbs_value = request.POST.get('energy_efficient_lightbulbs_value') or 0
-        reduce_co2 = request.POST.get('reduce_co2', 'off') == 'on'
-        reduce_co2_value = request.POST.get('reduce_co2_value') or 0
-
-        # Update the session data with new values
-        client_data.update({
-            'reduce_water': reduce_water,
-            'reduce_water_value': reduce_water_value,
-            'reduce_electricity': reduce_electricity,
-            'reduce_electricity_value': reduce_electricity_value,
-            'reduce_waste': reduce_waste,
-            'reduce_waste_value': reduce_waste_value,
-            'energy_efficient_lightbulbs': energy_efficient_lightbulbs,
-            'energy_efficient_lightbulbs_value': energy_efficient_lightbulbs_value,
-            'reduce_co2': reduce_co2,
-            'reduce_co2_value': reduce_co2_value
-        })
-
-        client.reduce_water = reduce_water
-        client.reduce_water_value = reduce_water_value
-        client.reduce_electricity = reduce_electricity
-        client.reduce_electricity_value = reduce_electricity_value
-        client.reduce_waste = reduce_waste
-        client.reduce_waste_value = reduce_waste_value
-        client.energy_efficient_lightbulbs = energy_efficient_lightbulbs
-        client.energy_efficient_lightbulbs_value = energy_efficient_lightbulbs_value
-        client.reduce_co2 = reduce_co2
-        client.reduce_co2_value = reduce_co2_value
-        client.save()
+        # Use filter() to fetch all matching clients for the logged-in user
+        clients = Client.objects.filter(user=request.user)
         
+        if not clients.exists():
+            return HttpResponse("No clients found for the user.")
+        
+        # Update client data with the new values
+        for client in clients:
+            client.reduce_water = request.POST.get('reduce_water', 'off') == 'on'
+            client.reduce_water_value = request.POST.get('reduce_water_value') or 0
+            client.reduce_electricity = request.POST.get('reduce_electricity', 'off') == 'on'
+            client.reduce_electricity_value = request.POST.get('reduce_electricity_value') or 0
+            client.reduce_waste = request.POST.get('reduce_waste', 'off') == 'on'
+            client.reduce_waste_value = request.POST.get('reduce_waste_value') or 0
+            client.energy_efficient_lightbulbs = request.POST.get('energy_efficient_lightbulbs', 'off') == 'on'
+            client.energy_efficient_lightbulbs_value = request.POST.get('energy_efficient_lightbulbs_value') or 0
+            client.reduce_co2 = request.POST.get('reduce_co2', 'off') == 'on'
+            client.reduce_co2_value = request.POST.get('reduce_co2_value') or 0
 
-        # Store updated client data in session
-        request.session['client_data'] = client_data
+            # Save the client instance
+            client.save()
 
-        # Redirect to the confirmation page
-        return redirect('confirmation')
+        # Redirect to the confirmation page (pass the first client ID for simplicity)
+        return redirect('confirmation', client_id=clients.first().id)
 
     return render(request, 'project/kpichooser.html')
 
 
 def confirmation(request):
-    # Retrieve client data from the session
-    client_data = request.session.get('client_data')
-    client = get_object_or_404(Client, user=request.user)
+    # Fetch the first client for the logged-in user
+    client = Client.objects.filter(user=request.user).first()
 
-    if not client_data:
+    if not client:
         return HttpResponse("No client data found.")
 
-    # Prepare KPI data for the loan terms generation
+    # Directly access client data
     kpi_data = {
-        'reduce_water': client_data.get('reduce_water'),
-        'reduce_water_value': client_data.get('reduce_water_value'),
-        'reduce_electricity': client_data.get('reduce_electricity'),
-        'reduce_electricity_value': client_data.get('reduce_electricity_value'),
-        'reduce_waste': client_data.get('reduce_waste'),
-        'reduce_waste_value': client_data.get('reduce_waste_value'),
-        'energy_efficient_lightbulbs': client_data.get('energy_efficient_lightbulbs'),
-        'energy_efficient_lightbulbs_value': client_data.get('energy_efficient_lightbulbs_value'),
-        'reduce_co2': client_data.get('reduce_co2'),
-        'reduce_co2_value': client_data.get('reduce_co2_value')
+        'reduce_water': client.reduce_water,
+        'reduce_water_value': client.reduce_water_value,
+        'reduce_electricity': client.reduce_electricity,
+        'reduce_electricity_value': client.reduce_electricity_value,
+        'reduce_waste': client.reduce_waste,
+        'reduce_waste_value': client.reduce_waste_value,
+        'energy_efficient_lightbulbs': client.energy_efficient_lightbulbs,
+        'energy_efficient_lightbulbs_value': client.energy_efficient_lightbulbs_value,
+        'reduce_co2': client.reduce_co2,
+        'reduce_co2_value': client.reduce_co2_value,
     }
 
-    # Generate loan terms using OpenAI
-    loan_terms = generate_loan_terms(kpi_data)
+    # Generate loan terms using OpenAI (adjust according to your logic)
+    loan_terms, loan_contract = generate_loan_terms(kpi_data, client.business_name, client.loan_amount)
+    client.loan_terms = loan_contract
 
-    # Pass the client data and generated loan terms to the template
+    # Split the loan terms and update the client model
+    terms = loan_terms.split(';')
+    client.loan_rate = terms[0].split(':')[1]
+    client.loan_increasemiss1 = terms[1].split(':')[1]
+    client.loan_increasemiss2 = terms[2].split(':')[1]
+    client.loan_increasemiss3 = terms[3].split(':')[1]
+    client.save()
+
+    # Pass the actual client model data and generated loan terms to the template
     return render(request, 'project/confirmation.html', {
-        'client_data': client_data,
-        'loan_terms': loan_terms,  # Include the generated loan terms
-        'client': client,
+        'client': client,  # Pass the single client
+        'loan_contract': loan_contract,
     })
 
 
@@ -268,3 +238,11 @@ def current_loans(request):
 
     # Pass the loans to the template
     return render(request, 'project/currentloans.html', {'loans': loans})
+
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def logout_view(request):
+    logout(request)  # This will log the user out by clearing the session
+    return redirect('loginpage')  # Redirect to login page or another page after logging out
+

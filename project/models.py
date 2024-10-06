@@ -33,5 +33,10 @@ class Client(models.Model):
 
     loan_terms = models.TextField(null=True, blank=True)  # Field to store loan terms
 
+    loan_rate = models.CharField(max_length=255, null=True, blank=True)
+    loan_increasemiss1 = models.CharField(max_length=255, null=True, blank=True)
+    loan_increasemiss2 = models.CharField(max_length=255, null=True, blank=True)
+    loan_increasemiss3 = models.CharField(max_length=255, null=True, blank=True)
+
     def __str__(self):
         return f'''{self.business_name}'''
