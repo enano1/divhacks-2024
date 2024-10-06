@@ -26,7 +26,7 @@ urlpatterns = [
     path('currentloans/', views.current_loans, name='currentloans'),
     path('logout/', views.logout_view, name='logout'),
 
-
+    
 ]
 
 
