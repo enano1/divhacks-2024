@@ -175,3 +175,38 @@ def confirmation(request):
         'client_data': client_data,
         'loan_terms': loan_terms  # Include the generated loan terms
     })
+
+
+####### LOGIN AND LOGOUT ########
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from .forms import RegisterForm
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Automatically log in the user after registration
+            return redirect('dashboard')  # Redirect to dashboard instead of profile
+    else:
+        form = RegisterForm()
+    return render(request, 'project/register.html', {'form': form})
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login as auth_login
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            auth_login(request, user)  # Use the correct login function
+            return redirect('dashboard')  # Redirect to the dashboard after login
+        else:
+            # Optionally, add a message to inform the user that login failed
+            return render(request, 'project/login.html', {'error': 'Invalid credentials'})
+        
+    return render(request, 'project/login.html')

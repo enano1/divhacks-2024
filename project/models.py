@@ -1,8 +1,8 @@
+from django.contrib.auth.models import User
 from django.db import models
 
-
-
 class Client(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Associate Client with a User
     business_name = models.CharField(max_length=100, default="")  # matches 'businessname' input
     business_email = models.EmailField(default="")  # matches 'businessemail' input
     business_owner = models.CharField(max_length=100, default="")  # matches 'businessowner' input
@@ -31,7 +31,7 @@ class Client(models.Model):
     reduce_co2 = models.BooleanField(default=False)
     reduce_co2_value = models.PositiveIntegerField(null=True, blank=True)
 
-    loan_terms = models.TextField(null=True, blank=True)  # New field to store loan terms
+    loan_terms = models.TextField(null=True, blank=True)  # Field to store loan terms
 
     def __str__(self):
         return self.name

@@ -64,7 +64,7 @@ ROOT_URLCONF = 'divhacksproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # This is where your custom templates are located
         'APP_DIRS': True,
         'OPTIONS': {
             'string_if_invalid': 'WARNING: {{%s}} is not a valid context variable.',
@@ -137,5 +137,5 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # This tells Django where
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/login/'
