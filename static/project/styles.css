@@ -174,14 +174,16 @@ p {
 
 .learn-more {
     padding: 10px 20px;
-    background-color: green; /* Button color */
+    background-color: #2E8B57; /* Button color */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none; /* Remove underline from link */
     display: inline-block; /* Allows padding to apply correctly */
-    margin-top: 20px; /* Space above the button */
+    margin-top: 50px; /* Space above the button */
+    box-shadow: 2px 2px 5px rgba(0,0,0,10); /* Add text shadow */
+
 }
 /* Content Section Styles */
 .content-section {
@@ -204,7 +206,7 @@ p {
 .problem-box h3, .solution-box h3 {
     font-size: 2em; /* Increase the font size for subtitles */
     margin-bottom: 15px;
-    color: #32CD32; /* Brighter green color for subtitles */
+    color: #2E8B57; /* Brighter green color for subtitles */
 }
 
 .problem-box p, .solution-box p {
@@ -216,7 +218,7 @@ p {
 
 .section-divider {
     border: none;
-    border-top: 3px solid #32CD32; /* Thick, long horizontal line in brighter green color */
+    border-top: 3px solid #2E8B57; /* Thick, long horizontal line in brighter green color */
     width: 100%; /* Makes the line as long as the content width */
     margin: 40px 0; /* Add more space above and below the line */
 }
@@ -230,7 +232,7 @@ footer {
     width: 150px;
     height: 60px;
     padding: 10px 20px;
-    background-color: green; /* Button color */
+    background-color: #2E8B57; /* Button color */
     color: white;
     border: none;
     border-radius: 5px;

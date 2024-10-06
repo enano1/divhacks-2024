@@ -16,59 +16,110 @@
             background-position: center; /* Center background image */
             background-repeat: no-repeat; /* Prevent background repetition */
             background-attachment: fixed; /* Make background fixed during scroll */
-            color: rgba(174, 174, 174, 0.705); /* Change text color to white for better contrast */
+            background-color: black; /* Set the default background to black */
+            color: white; /* Set text color to white for better contrast */
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 0; /* Removed default padding */
             min-height: 100vh; /* Full height of the viewport */
         }
-    
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ddd; /* Slightly lighter color on hover */
+        }
+
         .application-form {
-            background-color: rgba(44, 44, 44, 0.7); /* Make form background very transparent */
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(44, 44, 44, 0.85); /* Make form background slightly transparent */
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Add slight shadow for depth */
-            padding: 20px;
-            width: 400px;
-            text-align: center;
-            margin-top: 120px; /* Added margin to push the form down */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Add slight shadow for depth */
+            padding: 40px;
+            width: 90%;
+            max-width: 600px; /* Constrain the width to a max size */
+            text-align: left; /* Align text to the left for labels and input */
+            margin-top: 150px; /* Added margin to push the form down */
         }
-    
+
         .application-form h1, .application-form p {
-            color: rgb(204, 202, 202);
+            color: white; /* Set heading and paragraph text color to white */
+            text-align: center; /* Keep the heading and description centered */
+            margin-bottom: 20px;
         }
-    
+
+        .application-form label {
+            font-size: 1em;
+            color: #ddd; /* Lighten the label color for better aesthetics */
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold; /* Make the label bold for emphasis */
+            display: block;
+        }
+
         .application-form input,
         .application-form textarea {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+            padding: 15px;
+            margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            background-color: rgba(144, 144, 144, 0.7); /* Make input fields slightly transparent */
-            color: black; /* Change input text color to black */
-            border-color: #cccccc5c;
+            background-color: rgba(255, 255, 255, 0.2); /* Slightly transparent background */
+            color: #fff; /* Make input text color white */
         }
-    
+
+        .application-form input::placeholder,
+        .application-form textarea::placeholder {
+            color: #999; /* Lighter placeholder color */
+        }
+
         .get-started {
             background-color: #4CAF50;
             color: white;
-            padding: 10px 20px;
+            padding: 15px 25px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 1.1em;
+            align-self: center; /* Center the button */
+            margin-top: 20px;
         }
-    
+
         .get-started:hover {
             background-color: #45a049;
+            transform: translateY(-3px); /* Lift the button slightly on hover */
         }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px; /* Add some space above the button */
+        }
+
     </style>
     
 </head>
 <body>
     <div class="navbar">
-        <div class="logo">Startup Name</div>
+        <div class="logo">Eco Boost</div>
         <div class="nav-links">
             <a href="/">Home</a>
             <a href="/dashboard/">Loan Dashboard</a>
@@ -76,40 +127,51 @@
     </div>
 
     <div class="application-form">
-        <h1>Apply for a SBL</h1>
-        <p>Take the next step. Improve your loan:</p>
-        
-        <br><br>
-
+        <h1>Apply for an SBL</h1>
+        <p>Take the next step. Improve your loan</p>
+    
         {% if error %}
         <p style="color:red;">{{ error }}</p>
         {% endif %}
-
+    
         <form action="{% url 'submit1' %}" method="POST">
             {% csrf_token %}
+    
+            <label for="businessname">Name:</label>
+            <input type="text" id="businessname" name="businessname" placeholder="Business Name" required>
+    
+            <label for="businessemail">Email:</label>
+            <input type="email" id="businessemail" name="businessemail" placeholder="Business Email" required>
+    
+            <label for="businessowner">Business Owner:</label>
+            <input type="text" id="businessowner" name="businessowner" placeholder="Business Owner" required>
+    
+            <label for="tin">Tax Identification Number:</label>
+            <input type="text" id="tin" name="tin" placeholder="Tax Identification Number" required>
+    
+            <label for="businesshistory">Business History:</label>
+            <textarea id="businesshistory" name="businesshistory" placeholder="Business History" rows="4" required></textarea>
+    
+            <label for="ownershipstructure">Ownership Structure:</label>
+            <textarea id="ownershipstructure" name="ownershipstructure" placeholder="Ownership Structure" rows="4" required></textarea>
+    
+            <label for="loanamount">Loan Amount:</label>
+            <input type="number" id="loanamount" step="1000" name="loanamount" placeholder="Loan Amount" required>
+    
+            <label for="loantimeframe">Loan Timeframe:</label>
+            <input type="number" id="loantimeframe" step="1" name="loantimeframe" placeholder="Loan Timeframe (months)" required>
+    
+            <label for="purpose">Purpose:</label>
+            <textarea id="purpose" name="purpose" placeholder="Purpose" rows="4" required></textarea>
+    
+            <label for="revenue">Revenue:</label>
+            <input type="number" id="revenue" step="0.01" name="revenue" placeholder="Revenue" required>
 
-            Name: <input type="text" name="businessname" placeholder="Business Name" required>
-            <br>
-            Email: <input type="email" name="businessemail" placeholder="Business Email" required>
-            <br>
-            Business Owner: <input type="text" name="businessowner" placeholder="Business Owner" required>
-            <br>
-            Tax Identification Number: <input type="text" name="tin" placeholder="Tax Identification Number" required>
-            <br>
-            Business History: <textarea name="businesshistory" placeholder="Business History" rows="4" required></textarea>
-            <br>
-            Ownership Structure: <textarea name="ownershipstructure" placeholder="Ownership Structure" rows="4" required></textarea>
-            <br>
-            Loan Amount: <input type="number" step="1000" name="loanamount" placeholder="Loan Amount" required>
-            <br>
-            Loan Timeframe: <input type="number" step="1" name="loantimeframe" placeholder="Loan Timeframe (months)" required>
-            <br>
-            Purpose: <textarea name="purpose" placeholder="Purpose" rows="4" required></textarea>
-            <br>
-            Revenue: <input type="number" step="0.01" name="revenue" placeholder="Revenue" required>
-            <br>
-            <button type="submit" class="get-started">KPI Chooser</button>
+            <div class="button-container">
+                <button type="submit" class="get-started">KPI Chooser</button>
+            </div>
         </form>
+
     </div>
     
 </body>
