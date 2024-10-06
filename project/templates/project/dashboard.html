@@ -19,89 +19,96 @@
             background-position: center; /* Center the background image */
             background-repeat: no-repeat; /* Prevent background repetition */
             background-attachment: fixed; /* Fix the background during scroll */
-        }
-        .container {
-            text-align: center;
-            padding: 20px;
-            width: 100%;
-            margin-top: -50px; /* Moves the content upward */
-        }
-
-        h1 {
-            margin-bottom: 60px; /* Increased space between text and buttons */
-            color: white; /* Text color to contrast with the background */
-            font-size: 24px; /* Adjusted size to fit in one line */
-            white-space: nowrap; /* Ensure the text stays on one line */
-        }
-
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px; /* Add space between buttons */
-            align-items: center; /* Center the buttons horizontally */
-        }
-
-        button {
-            background-color: rgba(255, 255, 255, 0.3); /* Transparent background */
-            border: none; /* Remove borders */
-            border-radius: 10px;
-            padding: 10px;
-            margin: 0;
-            cursor: pointer;
-            color: whitesmoke; /* Button text color */
-            font-size: 16px;
-            width: 300px; /* Set fixed width for uniform button size */
-        }
-
-        button:hover {
-            background-color: rgba(255, 255, 255, 0.5); /* Slightly less transparent on hover */
-        }
-
-        .navbar {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            background-color: transparent; /* Keep the navbar transparent */
             color: white;
-            padding: 10px 0;
+            flex-direction: column;
         }
 
         .logo {
-            display: inline-block;
-            padding-left: 20px;
-            font-size: 24px;
+            font-size: 24px; /* Increase logo size */
+            font-weight: bold;
             color: white;
         }
 
         .nav-links {
-            float: right;
+            display: flex;
+            gap: 30px; /* Increased spacing between links */
             padding-right: 20px;
         }
 
         .nav-links a {
             color: white;
-            padding: 0 15px;
             text-decoration: none;
+            font-size: 1.2em; /* Make links slightly larger */
+            transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            text-decoration: underline;
+            color: #ddd; /* Lighter color on hover for better effect */
+        }
+
+        .container {
+            text-align: center;
+            padding: 50px;
+            width: 100%;
+            max-width: 800px; /* Set a maximum width for better readability */
+            border-radius: 10px; /* Add rounded corners */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: white;
+            font-size: 4em; /* Increase the size of the main heading */
+            text-align: center; /* Center the heading */
+            text-shadow: 1px 1px 8px rgba(0, 0, 0, 1); /* Add drop shadow for emphasis */
+        }
+
+        .horizontal-line {
+            border: 0;
+            height: 2px;
+            width: 80%;
+            background: white;
+            margin: 20px auto; /* Center the horizontal line with spacing */
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Increase space between buttons */
+            align-items: center; /* Center the buttons horizontally */
+        }
+
+        button {
+            background-color: #2E8B57; /* Set button background to green */
+            width: 300px;
+            padding: 15px 30px; /* Increase button size for better appearance */
+            cursor: pointer;
+            color: white;
+            font-size: 1.2em; /* Increase font size of the button text */
+            border: none; /* Remove border */
+            border-radius: 8px; /* Add some rounding to the button corners */
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+            transform: translateY(-3px); /* Slight lift on hover for better interaction */
         }
     </style>
 </head>
 <body>
 
     <div class="navbar">
-        <div class="logo">Startup Name</div>
+        <div class="logo">Eco Boost</div>
         <div class="nav-links">
             <a href="/">Home</a>
         </div>
     </div>
 
     <div class="container">
-        <h1>Dashboard: All your loan information in one place</h1>
+        <h1>Loan Dashboard</h1>
+        <hr class="horizontal-line"> <!-- Horizontal line under the main heading -->
         <div class="button-group">
-            <button onclick="location.href='/application/'">Apply for a new loan</button>
+            <button onclick="location.href='/application/'">Apply for a New Loan</button>
             <button onclick="location.href='/currentloans/'">Current Loans</button>
             <button onclick="location.href='/loantracker/'">Track My Current Loans</button>
         </div>
