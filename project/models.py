@@ -12,7 +12,7 @@ class Client(models.Model):
     loan_amount = models.IntegerField(default=0)  # matches 'loanamount' input
     loan_timeframe = models.IntegerField(default=0)  # matches 'loantimeframe' input
     purpose = models.TextField(default="")  # matches 'purpose' textarea
-    revenue = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)  # matches 'revenue' input
+    revenue = models.IntegerField(default=0)  # matches 'revenue' input
 
 
     # Sustainability KPIs fields

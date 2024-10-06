@@ -137,5 +137,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # This tells Django where
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Redirect to the custom login page if user is not authenticated
+LOGIN_URL = '/loginpage/'
 LOGIN_REDIRECT_URL = '/dashboard/'
-LOGOUT_REDIRECT_URL = '/login/'

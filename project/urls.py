@@ -9,9 +9,6 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.home, name="home"),
 
-    path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
     path('dashboard/', views.dashboard, name="dashboard"),
     path('application/', views.application, name="application"),
     path('loantracker/', views.loantracker, name="loantracker"),
@@ -23,8 +20,7 @@ urlpatterns = [
     path('confirmation/', views.confirmation, name="confirmation"),
 
     #Login and Logout Functionality
-    path('login/', auth_views.LoginView.as_view(template_name='project/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('loginpage/', views.custom_login, name='loginpage'),  # Custom login view
     path('register/', views.register, name='register'),
 ]
 

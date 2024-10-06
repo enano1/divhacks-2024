@@ -75,23 +75,36 @@ def loantracker(request):
 
 def submit1(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
+        # Get the form data from the POST request
+        business_name = request.POST.get('businessname')
+        business_email = request.POST.get('businessemail')
+        business_owner = request.POST.get('businessowner')
+        tin = request.POST.get('tin')
+        business_history = request.POST.get('businesshistory')
+        ownership_structure = request.POST.get('ownershipstructure')
+        loan_amount = request.POST.get('loanamount')
+        loan_timeframe = request.POST.get('loantimeframe')
+        purpose = request.POST.get('purpose')
         revenue = request.POST.get('revenue')
-        description = request.POST.get('description')
 
         # Validation check for required fields
-        if not all([name, email, revenue, description]):
+        if not all([business_name, business_email, business_owner, tin, business_history, ownership_structure, loan_amount, loan_timeframe, purpose, revenue]):
             return render(request, 'project/application.html', {
                 'error': 'Please fill in all the required fields.'
             })
 
-        # Store client data in the session
+        # Store the form data in session
         request.session['client_data'] = {
-            'name': name,
-            'email': email,
-            'revenue': revenue,
-            'description': description
+            'business_name': business_name,
+            'business_email': business_email,
+            'business_owner': business_owner,
+            'tin': tin,
+            'business_history': business_history,
+            'ownership_structure': ownership_structure,
+            'loan_amount': loan_amount,
+            'loan_timeframe': loan_timeframe,
+            'purpose': purpose,
+            'revenue': revenue
         }
 
         return redirect('kpichooser')
@@ -181,7 +194,6 @@ def confirmation(request):
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
 def register(request):
     if request.method == 'POST':
@@ -195,18 +207,21 @@ def register(request):
     return render(request, 'project/register.html', {'form': form})
 
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login
+from django.contrib import messages  # For flash messages
+from django.http import HttpResponse
 
-def user_login(request):
+def custom_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        if user is not None:
-            auth_login(request, user)  # Use the correct login function
-            return redirect('dashboard')  # Redirect to the dashboard after login
-        else:
-            # Optionally, add a message to inform the user that login failed
-            return render(request, 'project/login.html', {'error': 'Invalid credentials'})
         
-    return render(request, 'project/login.html')
+        if user is not None:
+            login(request, user)  # Log the user in
+            return redirect('dashboard')  # Redirect to your dashboard or another page
+        else:
+            messages.error(request, "Invalid username or password")  # Show error message
+    
+    return render(request, 'project/loginpage.html')  # Use your custom template
+
