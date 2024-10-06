@@ -1,19 +1,132 @@
-<h2>Login</h2>
-<form method="post">
-    {% csrf_token %}
-    <label for="username">Username:</label>
-    <input type="text" name="username" id="username" required>
+<!DOCTYPE html>
+<html lang="en">
 
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password" required>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'project/styles.css' %}">
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, black 100%), 
+                        url("{% static 'project/background6.jpg' %}"); /* Gradient and background image */
+            background-size: cover; /* Cover entire viewport */
+            background-position: center; /* Center background image */
+            background-repeat: no-repeat; /* Prevent background repetition */
+            background-attachment: fixed; /* Make background fixed during scroll */
+            background-color: black; /* Set the default background to black */
+            color: white; /* Set text color to white for better contrast */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0; /* Removed default padding */
+            min-height: 100vh; /* Full height of the viewport */
+        }
 
-    <button type="submit">Login</button>
-</form>
+        .application-form {
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(44, 44, 44, 0.85); /* Make form background slightly transparent */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Add slight shadow for depth */
+            padding: 40px;
+            width: 90%;
+            max-width: 600px; /* Constrain the width to a max size */
+            text-align: left; /* Align text to the left for labels and input */
+            margin-top: 250px; /* Added margin to push the form down */
+            height: 500px;
+        }
 
-{% if messages %}
-    <ul>
-    {% for message in messages %}
-        <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-{% endif %}
+        .application-form h1, .application-form p {
+            color: white; /* Set heading and paragraph text color to white */
+            text-align: center; /* Keep the heading and description centered */
+            margin-bottom: 20px;
+        }
+
+        .application-form label {
+            font-size: 1em;
+            color: #fff; /* Lighten the label color for better aesthetics */
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold; /* Make the label bold for emphasis */
+            display: block;
+        }
+
+        .application-form input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2); /* Slightly transparent background */
+            color: #fff; /* Make input text color white */
+        }
+
+        .application-form input::placeholder {
+            color: #999; /* Lighter placeholder color */
+        }
+
+        .get-started {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 1.1em;
+            align-self: center; /* Center the button */
+            margin-top: 20px;
+        }
+
+        .get-started:hover {
+            background-color: #45a049;
+            transform: translateY(-3px); /* Lift the button slightly on hover */
+        }
+
+        .message-container {
+            margin-top: 20px;
+            color: #f44336; /* Set color for error messages */
+            list-style-type: none; /* Remove bullet points */
+            padding-left: 0;
+            text-align: center; /* Center messages */
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px; /* Add some space above the button */
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="application-form">
+        <h1>Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" placeholder="Enter your username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" placeholder="Enter your password" required>
+            <div class="button-container">
+                <button type="submit" class="get-started">Continue</button>
+            </div>
+        </form>
+
+        {% if messages %}
+            <ul class="message-container">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+
+</html>
