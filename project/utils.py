@@ -40,7 +40,7 @@ def generate_loan_terms(kpi_data, business_name, loan_amount):
                         Input
                         Reduce Pollution by 70%; Switch to Energy Efficient Lightbulbs by 50%; Reduce Water emissions by 95%
 
-                        Output
+                        Output (without saying output)
                         Rate:2%;increasemiss1:0.3%;increasemiss2:0.6%;increasemiss3:0.7%
 
                         Explanation
@@ -49,7 +49,7 @@ def generate_loan_terms(kpi_data, business_name, loan_amount):
                         Input
                         Reduce Water by 1%; Switch to Energy Efficient Lightbulbs by 13%; Reduce CO2 emissions by 21%
 
-                        Output
+                        Output (without saying output)
                         Rate:4.6%;increasemiss1:0.05%;increasemiss2:0.1%;increasemiss3:0.125%
 
                         Explanation
@@ -100,6 +100,3 @@ def generate_loan_terms(kpi_data, business_name, loan_amount):
             print(f"Error with OpenAI: {e}")
             return "Unable to generate loan terms at this time."
 
-        
-    
-    return None
