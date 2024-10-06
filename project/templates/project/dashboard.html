@@ -15,11 +15,11 @@
             justify-content: center;
             align-items: center;
             background-image: url("{% static 'project/background2.jpg' %}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-size: cover; /* Cover entire viewport */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Prevent background repetition */
+            background-attachment: fixed; /* Fix the background during scroll */
         }
-
         .container {
             text-align: center;
             padding: 20px;
