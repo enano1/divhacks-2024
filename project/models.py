@@ -24,5 +24,7 @@ class Client(models.Model):
     reduce_co2 = models.BooleanField(default=False)
     reduce_co2_value = models.PositiveIntegerField(null=True, blank=True)
 
+    loan_terms = models.TextField(null=True, blank=True)  # New field to store loan terms
+
     def __str__(self):
         return self.name
