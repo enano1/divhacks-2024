@@ -1,11 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css"> <!-- Link to your existing CSS -->
-    <title>bj</title>
+    <title>Loan Dashboard</title>
+
+    <!-- Including Chart.js and the Annotation plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0"></script>
+
+    <!-- Your CSS -->
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 15px;
+            color: white;
+        }
+
+        .nav-links a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+
+        .charts-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .chart-section {
+            width: 48%;
+            margin-top: 30px;
+        }
+
+        .chart-section canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        .status-section,
+        .statistics-section {
+            margin-top: 30px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            flex: 1 1 30%;
+            margin: 10px;
+            padding: 15px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Center the pie chart */
+        .centered-chart {
+            width: 30%;
+            margin: 30px auto; /* Center the chart */
+        }
+
+        /* Add thin line under h1 */
+        h1 {
+            position: relative;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h1::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 2px;
+            width: 50px;
+            background-color: #333;
+        }
+    </style>
 </head>
+
 <body>
     <div class="navbar">
         <div class="logo">Loan Dashboard</div>
@@ -16,4 +119,168 @@
             <a href="#contact">Contact</a>
         </div>
     </div>
+
+    <div class="container">
+        <h1>Loan Status Overview</h1>
+
+        <div class="status-section">
+            <h2>Carbon Emissions Status</h2>
+            <div id="status-indicator" class="status-indicator">
+                <div class="status">
+                    <span class="status-circle" id="emission-status"></span>
+                    <p id="status-text">Current Status: Within Safe Limits</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wrap the two line charts in a flex container -->
+        <div class="charts-row">
+            <div class="chart-section">
+                <h2>Carbon Emissions</h2>
+                <canvas id="emissionsChart"></canvas>
+            </div>
+
+            <div class="chart-section">
+                <h2>Interest Rate Over Time</h2>
+                <canvas id="interestRateChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Centered the pie chart -->
+        <div class="chart-section centered-chart">
+            <h2 style="text-align: center;">Carbon Emissions Threshold</h2>
+            <canvas id="thresholdPieChart"></canvas>
+        </div>
+
+        <div class="statistics-section">
+            <div class="stats">
+                <div class="stat-item">
+                    <h3>Current Interest Rate:</h3>
+                    <p id="current-interest-rate">4.5%</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Carbon Threshold Status:</h3>
+                    <p id="carbon-threshold-status">You are 10% under the carbon threshold.</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Projected Interest Rate Increase:</h3>
+                    <p id="projected-increase">If emissions rise by 20%, interest rate will increase to 6.0%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set up the status color dynamically
+        function updateStatusIndicator(emissionsLevel) {
+            const statusCircle = document.getElementById('emission-status');
+            const statusText = document.getElementById('status-text');
+
+            if (emissionsLevel < 70) {
+                statusCircle.style.backgroundColor = 'green';
+                statusText.textContent = 'Current Status: Safe';
+            } else if (emissionsLevel < 90) {
+                statusCircle.style.backgroundColor = 'yellow';
+                statusText.textContent = 'Current Status: Caution';
+            } else {
+                statusCircle.style.backgroundColor = 'red';
+                statusText.textContent = 'Current Status: Danger of surpassing threshold';
+            }
+        }
+
+        // Sample emissions level - this value could come from a database or API
+        let currentEmissionsLevel = 75; // Example value
+        updateStatusIndicator(currentEmissionsLevel);
+
+        // Register the annotation plugin
+        Chart.register(window['chartjs-plugin-annotation']);
+
+        // Carbon Emissions Chart with Threshold Line
+        const emissionsCtx = document.getElementById('emissionsChart').getContext('2d');
+        const emissionsChart = new Chart(emissionsCtx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'], // Example labels
+                datasets: [{
+                    label: 'Carbon Emissions (kg CO2)',
+                    data: [50, 60, 75, 80, 90, 85], // Example data
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    annotation: {
+                        annotations: {
+                            thresholdLine: {
+                                type: 'line',
+                                yMin: 120,
+                                yMax: 120,
+                                borderColor: 'black',
+                                borderWidth: 2,
+                                borderDash: [6, 6],
+                                label: {
+                                    enabled: true,
+                                    content: 'Threshold',
+                                    position: 'end',
+                                    backgroundColor: 'rgba(0,0,0,0.8)',
+                                    color: '#fff',
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Interest Rate Chart
+        const interestRateCtx = document.getElementById('interestRateChart').getContext('2d');
+        const interestRateChart = new Chart(interestRateCtx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'], // Example labels
+                datasets: [{
+                    label: 'Interest Rate (%)',
+                    data: [4, 4.2, 4.5, 4.8, 5.0, 4.7], // Example data
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Threshold Usage Pie Chart
+        const thresholdPieCtx = document.getElementById('thresholdPieChart').getContext('2d');
+        const thresholdPieChart = new Chart(thresholdPieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Used Threshold', 'Remaining Threshold'],
+                datasets: [{
+                    data: [75, 25], // Example: 75% of threshold used, 25% remaining
+                    backgroundColor: ['rgb(255, 205, 86)', 'rgb(75, 192, 192)'],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+            }
+        });
+    </script>
 </body>
+
+</html>
