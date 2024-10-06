@@ -3,10 +3,17 @@ from django.db import models
 
 
 class Client(models.Model):
-    name = models.CharField(max_length=100, default="")
-    email = models.EmailField(default="")
-    revenue = models.IntegerField(default=0)
-    description = models.TextField(default="")
+    business_name = models.CharField(max_length=100, default="")  # matches 'businessname' input
+    business_email = models.EmailField(default="")  # matches 'businessemail' input
+    business_owner = models.CharField(max_length=100, default="")  # matches 'businessowner' input
+    tax_identification_number = models.CharField(max_length=20, default="")  # matches 'tin' input
+    business_history = models.TextField(default="")  # matches 'businesshistory' input
+    ownership_structure = models.TextField(default="")  # matches 'ownershipstructure' input
+    loan_amount = models.IntegerField(default=0)  # matches 'loanamount' input
+    loan_timeframe = models.IntegerField(default=0)  # matches 'loantimeframe' input
+    purpose = models.TextField(default="")  # matches 'purpose' textarea
+    revenue = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)  # matches 'revenue' input
+
 
     # Sustainability KPIs fields
     reduce_water = models.BooleanField(default=False)

@@ -10,44 +10,34 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: black; /* Set background color to black */
-            color: white; /* Change text color to white for better contrast */
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, black 100%), 
+                        url("{% static 'project/background4.jpg' %}"); /* Gradient and background image */
+            background-size: cover; /* Cover entire viewport */
+            background-position: center; /* Center background image */
+            background-repeat: no-repeat; /* Prevent background repetition */
+            background-attachment: fixed; /* Make background fixed during scroll */
+            color: rgba(174, 174, 174, 0.705); /* Change text color to white for better contrast */
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 0; /* Removed default padding */
+            min-height: 100vh; /* Full height of the viewport */
         }
-
-        .navbar {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: #333; /* You can keep this or change to black */
-        }
-
-        .navbar .logo {
-            font-size: 24px;
-            color: white;
-        }
-
-        .navbar .nav-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-        }
-
+    
         .application-form {
-            background-color: #2c2c2c; /* Dark background for form */
+            background-color: rgba(44, 44, 44, 0.7); /* Make form background very transparent */
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Add slight shadow for depth */
             padding: 20px;
             width: 400px;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 120px; /* Added margin to push the form down */
         }
-
+    
+        .application-form h1, .application-form p {
+            color: rgb(204, 202, 202);
+        }
+    
         .application-form input,
         .application-form textarea {
             width: 100%;
@@ -55,10 +45,11 @@
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
-            background-color: white; /* Set input fields to white for contrast */
+            background-color: rgba(144, 144, 144, 0.7); /* Make input fields slightly transparent */
             color: black; /* Change input text color to black */
+            border-color: #cccccc5c;
         }
-
+    
         .get-started {
             background-color: #4CAF50;
             color: white;
@@ -68,41 +59,58 @@
             cursor: pointer;
             margin-top: 10px;
         }
-
+    
         .get-started:hover {
             background-color: #45a049;
         }
     </style>
+    
 </head>
 <body>
     <div class="navbar">
         <div class="logo">Startup Name</div>
         <div class="nav-links">
-            <a href="/home/">Home</a>
+            <a href="/">Home</a>
             <a href="/dashboard/">Loan Dashboard</a>
         </div>
     </div>
 
-    <<div class="application-form">
+    <div class="application-form">
         <h1>Apply for a SBL</h1>
         <p>Take the next step. Improve your loan:</p>
-    
+        
+        <br><br>
+
         {% if error %}
         <p style="color:red;">{{ error }}</p>
         {% endif %}
-    
+
         <form action="{% url 'submit1' %}" method="POST">
             {% csrf_token %}
-    
-            Name: <input type="text" name="name" placeholder="Name" required>
-            Email: <input type="email" name="email" placeholder="Email" required>
+
+            Name: <input type="text" name="businessname" placeholder="Business Name" required>
+            <br>
+            Email: <input type="email" name="businessemail" placeholder="Business Email" required>
+            <br>
+            Business Owner: <input type="text" name="businessname" placeholder="Business Owner" required>
+            <br>
+            Tax Identification Number: <input type="text" name="tin" placeholder="Tax Identification Number" required>
+            <br>
+            Business History: <textarea name="businesshistory" placeholder="Business History" rows="4" required></textarea>
+            <br>
+            Ownership Structure: <textarea name="ownershipstructure" placeholder="Ownership Structure" rows="4" required></textarea>
+            <br>
+            Loan Amount: <input type="number" step="1000" name="loanamount" placeholder="Loan Amount" required>
+            <br>
+            Loan Timeframe: <input type="number" step="1" name="loantimeframe" placeholder="Loan Timeframe (months)" required>
+            <br>
+            Purpose: <textarea name="purpose" placeholder="Purpose" rows="4" required></textarea>
+            <br>
             Revenue: <input type="number" step="0.01" name="revenue" placeholder="Revenue" required>
-            Description: <textarea name="description" placeholder="Description" rows="4" required></textarea>
-    
+            <br>
             <button type="submit" class="get-started">KPI Chooser</button>
         </form>
     </div>
-    
     
 </body>
 </html>
