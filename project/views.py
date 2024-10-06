@@ -167,26 +167,28 @@ def confirmation(request):
     # Retrieve client data from the session
     client_data = request.session.get('client_data')
 
-    # Get all loans for the user
-    clients = Client.objects.filter(user=request.user)
+    # Fetch the single client for the logged-in user
+    try:
+        client = Client.objects.get(user=request.user)
+    except Client.DoesNotExist:
+        return HttpResponse("No client found for the user.")
 
     if not client_data:
         return HttpResponse("No client data found.")
     
-    for client in clients:
-        # Prepare KPI data for the loan terms generation
-        kpi_data = {
-            'reduce_water': client_data.get('reduce_water'),
-            'reduce_water_value': client_data.get('reduce_water_value'),
-            'reduce_electricity': client_data.get('reduce_electricity'),
-            'reduce_electricity_value': client_data.get('reduce_electricity_value'),
-            'reduce_waste': client_data.get('reduce_waste'),
-            'reduce_waste_value': client_data.get('reduce_waste_value'),
-            'energy_efficient_lightbulbs': client_data.get('energy_efficient_lightbulbs'),
-            'energy_efficient_lightbulbs_value': client_data.get('energy_efficient_lightbulbs_value'),
-            'reduce_co2': client_data.get('reduce_co2'),
-            'reduce_co2_value': client_data.get('reduce_co2_value')
-        }
+    # Prepare KPI data for the loan terms generation
+    kpi_data = {
+        'reduce_water': client_data.get('reduce_water'),
+        'reduce_water_value': client_data.get('reduce_water_value'),
+        'reduce_electricity': client_data.get('reduce_electricity'),
+        'reduce_electricity_value': client_data.get('reduce_electricity_value'),
+        'reduce_waste': client_data.get('reduce_waste'),
+        'reduce_waste_value': client_data.get('reduce_waste_value'),
+        'energy_efficient_lightbulbs': client_data.get('energy_efficient_lightbulbs'),
+        'energy_efficient_lightbulbs_value': client_data.get('energy_efficient_lightbulbs_value'),
+        'reduce_co2': client_data.get('reduce_co2'),
+        'reduce_co2_value': client_data.get('reduce_co2_value')
+    }
 
     # Generate loan terms using OpenAI
     loan_terms, loan_contract = generate_loan_terms(kpi_data, client.business_name, client.loan_amount)
@@ -203,7 +205,7 @@ def confirmation(request):
     return render(request, 'project/confirmation.html', {
         'client_data': client_data,
         'loan_contract': loan_contract,
-        'clients': clients,  # Pass all loans to the template if necessary
+        'client': client  # Only pass the single client
     })
 
 ####### LOGIN AND LOGOUT ########
