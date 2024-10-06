@@ -34,4 +34,4 @@ class Client(models.Model):
     loan_terms = models.TextField(null=True, blank=True)  # Field to store loan terms
 
     def __str__(self):
-        return self.name
+        return f'''{self.business_name}'''

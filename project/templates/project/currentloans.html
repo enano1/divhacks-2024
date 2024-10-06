@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Loans</title>
+</head>
+<body>
+    <h1>Your Current Loans</h1>
+
+    {% if loans %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Business Name</th>
+                    <th>Owner</th>
+                    <th>Loan Amount</th>
+                    <th>Loan Timeframe</th>
+                    <th>Purpose</th>
+                    <th>Revenue</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in loans %}
+                    <tr>
+                        <td>{{ loan.business_name }}</td>
+                        <td>{{ loan.business_owner }}</td>
+                        <td>{{ loan.loan_amount }}</td>
+                        <td>{{ loan.loan_timeframe }}</td>
+                        <td>{{ loan.purpose }}</td>
+                        <td>{{ loan.revenue }}</td>
+                        <td>
+                            <!-- Optional: Add links for viewing/editing a specific loan -->
+                            {% comment %} <a href="{% url 'currentloans' loan.id %}">View Details</a> {% endcomment %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You currently have no loans.</p>
+    {% endif %}
+
+    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+</body>
+</html>
