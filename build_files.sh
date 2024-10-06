@@ -1,9 +1,13 @@
 #!/bin/bash
+# Create and activate a virtual environment
+python3.11 -m venv venv
+source venv/bin/activate
+
 # Install dependencies
-pip install -r requirements.txt
+venv/bin/pip install -r requirements.txt
 
 # Ensure psycopg2-binary is installed instead of psycopg2
-pip install psycopg2-binary
+venv/bin/pip install psycopg2-binary
 
 # Run collectstatic to handle static files
-python manage.py collectstatic --noinput
+venv/bin/python manage.py collectstatic --noinput
