@@ -5,7 +5,7 @@ __pycache__/
 *.pyd
 
 # Ignore virtual environment directories
-venv/
+/.venv/
 env/
 
 # Ignore environment variables and API keys
@@ -32,3 +32,4 @@ node_modules/
 
 # Ignore MacOS system files
 .DS_Store
+

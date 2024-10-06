@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'project/styles.css' %}">
+    <title>Mint NFT</title>
+
+    <!-- Include Axios via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Link your custom JavaScript file -->
+    <script src="{% static 'project/js/mint_nft.js' %}" defer></script> <!-- Make sure to use `defer` -->
+</head>
+
+<body>
+    <h1>Mint an NFT from JSON</h1>
+    <button id="mintButton">Mint NFT</button>
+</body>
+
+</html>

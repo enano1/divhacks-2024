@@ -1,41 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
     <title>Loan Application Confirmation</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'project/styles.css' %}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, black 100%), 
+                        url("{% static 'project/background7.jpg' %}"); /* Gradient and background image */
+            background-size: cover; /* Cover entire viewport */
+            background-position: center; /* Center background image */
+            background-repeat: no-repeat; /* Prevent background repetition */
+            background-attachment: fixed; /* Make background fixed during scroll */
+            background-color: black; /* Set the default background to black */
+            color: white; /* Set text color to white for better contrast */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0; /* Removed default padding */
+            min-height: 100vh; /* Full height of the viewport */
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ddd; /* Slightly lighter color on hover */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(44, 44, 44, 0.85); /* Make form background slightly transparent */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Add slight shadow for depth */
+            padding: 40px;
+            width: 90%;
+            max-width: 600px; /* Constrain the width to a max size */
+            text-align: left; /* Align text to the left for labels and input */
+            margin-top: 150px; /* Added margin to push the form down */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            color: #fff; /* Green color for header to match theme */
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            color: #fff; /* Green color to match buttons */
+            border-bottom: 2px solid #fff;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin: 10px 0;
+            font-size: 1em;
+            color: #ddd; /* Lighten text color for readability */
+        }
+
+        .kpi-list p {
+            margin-left: 20px;
+        }
+
+        .generated-loan {
+            background-color: rgba(72, 187, 120, 0.2); /* Greenish transparent background */
+            padding: 15px;
+            border-radius: 10px;
+            font-style: italic;
+            line-height: 1.5;
+            margin-top: 20px;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Loan Application Confirmation</h1>
+    <div class="navbar">
+        <div class="logo">Eco Boost</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/dashboard/">Loan Dashboard</a>
+        </div>
+    </div>
 
-    <h2>Client Information:</h2>
-    <p>Name: {{ client.business_name }}</p> <!-- Access from client object -->
-    <p>Email: {{ client.business_email }}</p> <!-- Access from client object -->
-    <p>Revenue: {{ client.revenue }}</p> <!-- Access from client object -->
+    <div class="container">
+        <h1>Loan Application Confirmation</h1>
 
-    <h2>KPI Selections:</h2>
+        <h2>Client Information:</h2>
+        <p><strong>Name:</strong> {{ client.business_name }}</p>
+        <p><strong>Email:</strong> {{ client.business_email }}</p>
+        <p><strong>Revenue:</strong> {{ client.revenue }}</p>
 
-    {% if client.reduce_water %}
-        <p>Reduce Water: {{ client.reduce_water_value }}%</p> <!-- Access from client object -->
-    {% endif %}
+        <h2>KPI Selections:</h2>
+        <div class="kpi-list">
+            {% if client.reduce_water %}
+                <p><strong>Reduce Water:</strong> {{ client.reduce_water_value }}%</p>
+            {% endif %}
 
-    {% if client.reduce_electricity %}
-        <p>Reduce Electricity: {{ client.reduce_electricity_value }}%</p> <!-- Access from client object -->
-    {% endif %}
+            {% if client.reduce_electricity %}
+                <p><strong>Reduce Electricity:</strong> {{ client.reduce_electricity_value }}%</p>
+            {% endif %}
 
-    {% if client.reduce_waste %}
-        <p>Reduce Waste: {{ client.reduce_waste_value }}%</p> <!-- Access from client object -->
-    {% endif %}
+            {% if client.reduce_waste %}
+                <p><strong>Reduce Waste:</strong> {{ client.reduce_waste_value }}%</p>
+            {% endif %}
 
-    {% if client.energy_efficient_lightbulbs %}
-        <p>Energy Efficient Lightbulbs: {{ client.energy_efficient_lightbulbs_value }}%</p> <!-- Access from client object -->
-    {% endif %}
+            {% if client.energy_efficient_lightbulbs %}
+                <p><strong>Energy Efficient Lightbulbs:</strong> {{ client.energy_efficient_lightbulbs_value }}%</p>
+            {% endif %}
 
-    {% if client.reduce_co2 %}
-        <p>Reduce CO2: {{ client.reduce_co2_value }}%</p> <!-- Access from client object -->
-    {% endif %}
+            {% if client.reduce_co2 %}
+                <p><strong>Reduce CO2:</strong> {{ client.reduce_co2_value }}%</p>
+            {% endif %}
+        </div>
 
-    <h2>Generated Loan Terms:</h2>
-    <p>{{ loan_contract }}</p> <!-- Keep this as is -->
+        <h2>Generated Loan Terms:</h2>
+        <div class="generated-loan">
+            <p>{{ loan_contract }}</p>
+        </div>
+    </div>
 </body>
+
 </html>

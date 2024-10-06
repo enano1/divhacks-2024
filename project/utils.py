@@ -1,5 +1,6 @@
 import openai
 from django.conf import settings
+from project.blockchain.mint_nft import send_nft
 
 # Set OpenAI API key
 openai.api_key = settings.OPENAI_API_KEY
@@ -92,6 +93,7 @@ def generate_loan_terms(kpi_data, business_name, loan_amount):
                 )
                 
                 # Return the generated loan term from the response
+            send_nft(completion['choices'][0]['message']['content'])
             return rate, completion['choices'][0]['message']['content']
         except Exception as e:
             # Handle any errors that occur during the API call
