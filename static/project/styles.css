@@ -50,16 +50,34 @@ body {
 }
 
 .hero-section {
-    position: relative; /* Make position relative for absolute children */
+    position: relative;
     height: 100vh; /* Full height of the viewport */
     background-image: url("background1.jpg"); /* Background image */
-    background-size: cover; /* Cover the entire section */
-    background-position: center; /* Center the background image */
-    display: flex; /* Use flexbox to center content */
-    align-items: center; /* Vertically center the content */
-    justify-content: center; /* Horizontally center the content */
-    color: rgb(8, 99, 3); /* Text color for visibility */
-    overflow: hidden; /* Prevent overflow of content */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(8, 99, 3);
+    overflow: hidden;
+}
+
+/* Modify the gradient overlay to start fading earlier and be more gradual */
+.hero-section::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, black 100%);
+    z-index: 1; /* Ensure the gradient is above the image */
+}
+
+/* Ensure the content stays above the gradient and image */
+.hero-content {
+    text-align: center;
+    z-index: 2; /* Content stays above the gradient */
 }
 
 .problem-solution {
@@ -71,17 +89,22 @@ body {
 .problem-box, .solution-box {
     width: 100%; /* Full width of the container */
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
-    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0); /* Slightly transparent background */
+    border-radius: 0px;
+    text-align: center;
 }
 
 .hero-content {
     text-align: center; /* Center the text */
     z-index: 5; /* Ensure content is above the background */
 }
+h3{
+    color: white;
+}
 
 p {
     color:white;
+    text-align: left;
 }
 
 .learn-more {
