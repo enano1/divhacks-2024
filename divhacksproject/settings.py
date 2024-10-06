@@ -128,8 +128,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 import os # operating system library
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')  # This tells Django where to put static files during deployment
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # This tells Django where to find static files during development
 
 # Default primary key field type
