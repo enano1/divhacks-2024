@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Client
 from .utils import generate_loan_terms
 from django.http import HttpResponse
-# import bson
 # from .db import db  # Import the db connection
 
 ############################################################################################
